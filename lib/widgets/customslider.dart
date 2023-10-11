@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 
 class CustomSlider extends StatefulWidget {
@@ -21,14 +20,14 @@ class _CustomSliderState extends State<CustomSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.signal_cellular_alt_1_bar,
-              color: Color(0xFF48D994), size: 40),
+              color: Colors.black54, size: 40),
           const SizedBox(width: 10),
           Expanded(
             child: Container(
-              height: 40, // Adjust the height to accommodate larger thumb
+              height: 25, // Adjust the height to accommodate larger thumb
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: const Color(0xFF48D994),
+                color: Colors.grey,
               ),
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
@@ -36,21 +35,21 @@ class _CustomSliderState extends State<CustomSlider> {
                   thumbShape: const RoundSliderThumbShape(
                       enabledThumbRadius: 20.0), // Increased thumb radius
                   trackHeight: 10.0, // Reduced track height
-                  thumbColor: const Color(0xFF48D994),
+                  thumbColor: Colors.transparent, // Changed thumb color
                   overlayColor: Colors.transparent,
                 ),
                 child: Slider(
                   value: widget.value,
                   onChanged: widget.onChanged,
-                  inactiveColor: Colors.transparent,
-                  activeColor: Colors.transparent,
+                  inactiveColor: const Color(0xFF064900),
+                  activeColor: const Color(0xFF064900),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 10),
           const Icon(Icons.signal_cellular_alt,
-              color: Color(0xFF48D994), size: 40),
+              color: Colors.black54, size: 40),
         ],
       ),
     );
@@ -97,7 +96,7 @@ class GradientRectSliderTrackShape extends SliderTrackShape {
 
     context.canvas.drawRect(
       rect,
-      Paint()..color = const Color(0xFF48D994),
+      Paint()..color = Colors.grey,
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:torch_controller/torch_controller.dart';
 
 class FlashlightController {
@@ -24,4 +26,20 @@ class FlashlightController {
 
   bool get isOn => _isOn;
   double get intensity => _intensity;
+
+  Timer? _strobeTimer;
+  // Call this method to start the strobe effect.
+  Future<void> startStrobe({required int milliseconds}) async {
+    stopStrobe(); // Ensure we don't have multiple timers running simultaneously.
+    _strobeTimer =
+        Timer.periodic(Duration(milliseconds: milliseconds), (timer) {
+      toggleLight();
+    });
+  }
+
+  // Call this method to stop the strobe effect.
+  void stopStrobe() {
+    _strobeTimer?.cancel();
+    _strobeTimer = null;
+  }
 }
