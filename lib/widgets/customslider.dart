@@ -20,7 +20,7 @@ class _CustomSliderState extends State<CustomSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.signal_cellular_alt_1_bar,
-              color: Colors.black54, size: 40),
+              color: Colors.orange, size: 40),
           const SizedBox(width: 10),
           Expanded(
             child: Container(
@@ -41,15 +41,14 @@ class _CustomSliderState extends State<CustomSlider> {
                 child: Slider(
                   value: widget.value,
                   onChanged: widget.onChanged,
-                  inactiveColor: const Color(0xFF064900),
-                  activeColor: const Color(0xFF064900),
+                  inactiveColor: Colors.deepOrange,
+                  activeColor: Colors.deepOrange,
                 ),
               ),
             ),
           ),
           const SizedBox(width: 10),
-          const Icon(Icons.signal_cellular_alt,
-              color: Colors.black54, size: 40),
+          const Icon(Icons.light_mode, color: Colors.orange, size: 40),
         ],
       ),
     );
