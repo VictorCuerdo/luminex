@@ -15,6 +15,7 @@ class FlashlightController {
   }
 
   Future<void> setLightIntensity(double intensity) async {
+    print("Setting intensity: $intensity");
     if (intensity >= 0.0 && intensity <= 1.0) {
       _intensity = intensity;
       if (_isOn) {

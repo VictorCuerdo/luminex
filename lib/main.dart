@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:torch_controller/torch_controller.dart';
 
-import 'ui/home_page.dart';
+import 'ui/loading_screen.dart';
 
 final TorchController torchController = TorchController();
 
@@ -18,7 +18,7 @@ class LuminexApp extends StatelessWidget {
     return MaterialApp(
       title: 'Luminex',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(),
+      home: LoadingScreen(),
     );
   }
 }

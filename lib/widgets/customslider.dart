@@ -41,8 +41,8 @@ class _CustomSliderState extends State<CustomSlider> {
                 child: Slider(
                   value: widget.value,
                   onChanged: widget.onChanged,
-                  inactiveColor: Colors.deepOrange,
-                  activeColor: Colors.deepOrange,
+                  inactiveColor: const Color(0xFF3C5DD6),
+                  activeColor: const Color(0xFF3C5DD6),
                 ),
               ),
             ),

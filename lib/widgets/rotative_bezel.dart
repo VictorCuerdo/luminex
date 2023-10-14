@@ -27,7 +27,10 @@ class BezelPainter extends CustomPainter {
 class RotativeBezel extends StatefulWidget {
   final ValueChanged<double> onRotation;
 
-  const RotativeBezel({super.key, required this.onRotation});
+  const RotativeBezel(
+      {super.key,
+      required this.onRotation,
+      required Null Function(dynamic position) onPositionChange});
 
   @override
   _RotativeBezelState createState() => _RotativeBezelState();
@@ -58,6 +61,9 @@ class _RotativeBezelState extends State<RotativeBezel> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: _handlePanUpdate,
+      onPanEnd: (_) {
+        _lastRotation = null;
+      },
       child: CustomPaint(
         painter: BezelPainter(),
         size: const Size(200, 200),
