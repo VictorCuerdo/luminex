@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -27,10 +26,10 @@ class BezelPainter extends CustomPainter {
 class RotativeBezel extends StatefulWidget {
   final ValueChanged<double> onRotation;
 
-  const RotativeBezel(
-      {super.key,
-      required this.onRotation,
-      required Null Function(dynamic position) onPositionChange});
+  const RotativeBezel({
+    Key? key,
+    required this.onRotation,
+  }) : super(key: key);
 
   @override
   _RotativeBezelState createState() => _RotativeBezelState();
@@ -38,6 +37,11 @@ class RotativeBezel extends StatefulWidget {
 
 class _RotativeBezelState extends State<RotativeBezel> {
   Offset? _lastRotation;
+
+  void _handlePanEnd(DragEndDetails details) {
+    widget.onRotation(0.0);
+    _lastRotation = null; // Reset the rotation reference point
+  }
 
   double _calculateAngle(Offset first, Offset second) {
     return (math.atan2(second.dy, second.dx) - math.atan2(first.dy, first.dx))
@@ -61,9 +65,8 @@ class _RotativeBezelState extends State<RotativeBezel> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: _handlePanUpdate,
-      onPanEnd: (_) {
-        _lastRotation = null;
-      },
+      onPanEnd:
+          _handlePanEnd, // Modified here to use the updated _handlePanEnd function
       child: CustomPaint(
         painter: BezelPainter(),
         size: const Size(200, 200),

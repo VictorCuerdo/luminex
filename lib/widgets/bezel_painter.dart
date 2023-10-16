@@ -7,7 +7,10 @@ import '../widgets/cylinder.dart'; // Make sure the path is correct
 class RotativeBezel extends StatefulWidget {
   final ValueChanged<double> onPositionChange;
 
-  const RotativeBezel({Key? key, required this.onPositionChange})
+  const RotativeBezel(
+      {Key? key,
+      required this.onPositionChange,
+      required Null Function(dynamic angleDifference) onRotation})
       : super(key: key);
 
   @override

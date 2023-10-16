@@ -29,7 +29,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,9 +47,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
             const Text(
               'LUMINEX',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 24, // Adjust the font size as per your requirements
+                fontSize: 28, // Adjust the font size as per your requirements
               ),
             )
           ],

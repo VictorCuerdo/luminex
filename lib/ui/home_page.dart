@@ -1,12 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:luminex/widgets/customslider.dart';
 
 import '../controller/flashlight_controller.dart';
 import '../widgets/altitude_tracker.dart';
-import '../widgets/bezel_painter.dart'; // Ensure this import is added for RotativeBezel
 import '../widgets/compass.dart';
 import '../widgets/lines.dart';
 import '../widgets/on_button.dart';
@@ -90,11 +89,35 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _handleBezelPositionChange(double angleDifference) {
+    if (angleDifference.abs() < 0.05) {
+      setState(() {
+        _bezelPosition = 0.0;
+      });
+      return;
+    }
+
+    setState(() {
+      _bezelPosition = angleDifference;
+      if (_controller.isOn) {
+        if (angleDifference > 0) {
+          _controller.startStrobe(
+              milliseconds: (500 / math.pow(2, angleDifference)).toInt());
+        } else if (angleDifference < 0) {
+          _controller.startStrobe(
+              milliseconds: (500 * math.pow(2, -angleDifference)).toInt());
+        } else {
+          _controller.stopStrobe();
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [
+        children: <Widget>[
           Container(
             decoration: BoxDecoration(
               gradient: RadialGradient(
@@ -109,33 +132,29 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                RotativeBezel(
-                  onPositionChange: (position) {
+              children: <Widget>[
+                const SizedBox(height: 30),
+                CustomSlider(
+                  value: _controller.intensity.clamp(0.0, 1.0),
+                  onChanged: (value) {
                     setState(() {
-                      _bezelPosition = position;
-                      if (_controller.isOn) {
-                        if (position > 0) {
-                          _controller.startStrobe(
-                              milliseconds:
-                                  (500 / math.pow(2, position)).toInt());
-                        } else if (position < 0) {
-                          _controller.startStrobe(
-                              milliseconds:
-                                  (500 * math.pow(2, -position)).toInt());
-                        } else {
-                          _controller.stopStrobe();
-                        }
-                      }
+                      _controller.setLightIntensity(value).then((_) {
+                        setState(() {});
+                      });
                     });
                   },
                 ),
+                const SizedBox(height: 20),
+                /*RotativeBezel(
+                  onPositionChange: _handleBezelPositionChange,
+                  onRotation: (angleDifference) {},
+                ),*/
                 const HorizontalLines(),
                 Expanded(
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         OnButton(
                           controller: _controller,
                           onToggle: () {
@@ -143,20 +162,6 @@ class _HomePageState extends State<HomePage> {
                           },
                         ).ignorePointer(_bezelPosition != 0.0),
                         const SizedBox(height: 70),
-                        /* CustomSlider(
-                          value: _controller.intensity.clamp(0.0, 1.0),
-                          onChanged: (value) {
-                            setState(() {
-                              _controller.setLightIntensity(value).then((_) {
-                                setState(() {});
-                              });
-                            });
-                          },
-                        ),
-                        CustomPaint(
-                          size: Size(MediaQuery.of(context).size.width, 50),
-                          painter: SemiCirclePainter(),
-                        ), */
                       ],
                     ),
                   ),
@@ -164,17 +169,11 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          //const SideLines(),
           const Positioned(
             bottom: 0,
             left: 15,
             child: CompassWidget(),
           ),
-          /*const Positioned(
-            bottom: 0,
-            left: 15,
-            child: Compass2(size: 150.0),
-          ),*/
           const Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
